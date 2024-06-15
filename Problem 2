@@ -1,0 +1,106 @@
+Q.
+Title:Raj's Magical Transformation Spell
+
+Description:
+Raj, a young and aspiring wizard, has discovered an ancient scroll that grants 
+him the power to transform arrays of integers. He is eager to master the spell and
+ has an array of integers of length N. The spell allows him to choose any subsequence of 
+ the array where all elements are the same and then replace all elements in that 
+ subsequence with any integer of his choice.
+
+Example
+Consider the array 
+
+A=[1,2,2,1,2,3]. Raj can perform the following transformations:
+
+[1,2,2,1,2,3]→[1,5,5,1,2,3]
+
+[1,2,2,1,2,3]→[1,19,2,1,19,19]
+
+[1,2,2,1,2,3]→[2,2,2,1,2,3]
+
+Each of these transformations changes the frequency of elements in the array. Your task is to determine the minimum
+possible value of F(A), where F(A) is the highest frequency of any single element in the array. after performing the
+operation at most once.
+
+Thought Process to Solve:
+
+-> Firstly we will store all the element and its frequency in map key as element and occurance as value.So that we 
+can keep track of element with maxFreq.
+->If we choose a subsequence of identical elements and replace them with another integer, we reduce the
+ frequency of the original integer in map.
+->For each unique element, consider transforming all its occurrences.
+After transforming, the frequency of this element becomes zero.
+We can choose any integer y for replacement, which means we can increase the frequency of any other element.
+->For each unique frequency, the code simulates the effect of transforming all elements with that frequency.
+ 
+
+#cpp code
+
+#include <bits/stdc++.h>
+using namespace std;
+
+  
+int main() {
+	int T;
+	cin >> T;
+	while(T--){
+	    int n;
+	    cin >> n;
+	    unordered_map<int,int>map;
+	    for(int i=0;i<n;i++){
+	        int t;
+	        cin >> t;
+	        map[t]++;
+	    }
+	    vector<int>y;
+	    for(auto i:map)y.push_back(i.second);
+	    sort(y.begin(),y.end());
+	    int m=y.size();
+	    int a=y[m-1];
+	    int b=0;
+	    if(m>1)b=y[m-2];
+	    cout << max(a/2+(int)(a%2!=0),b) << endl;
+	}
+	return 0;
+}
+
+//java code
+
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int T = scanner.nextInt();
+        
+        while (T-- > 0) {
+            int n = scanner.nextInt();
+            Map<Integer, Integer> map = new HashMap<>();
+            
+       
+            for (int i = 0; i < n; i++) {
+                int t = scanner.nextInt();
+                map.put(t, map.getOrDefault(t, 0) + 1);
+            }
+            
+            // Storing the frequencies in a list manner
+            List<Integer> frequencies = new ArrayList<>(map.values());
+            Collections.sort(frequencies);
+            
+            int m = frequencies.size();
+            int a = frequencies.get(m - 1);
+            int b = 0;
+            if (m > 1) {
+                b = frequencies.get(m - 2);
+            }
+            
+          
+            int result = Math.max(a / 2 + (a % 2 != 0 ? 1 : 0), b);
+            System.out.println(result);
+        }
+        
+        scanner.close();
+    }
+}
+
